@@ -22,15 +22,14 @@ private:
    double ddx = 0;                 // Total horizontal acceleration
    double ddy;                 // Total vertical acceleration
    bool thrusters;
-   double inertia;
    Point location;
    double weight = 15103.000;
-   double width;
+   double width = 20;
    double totalVelocity;
    double acceleration;
    int fuel = 5000;
    Point point;
-   double MAX_LANDING_SPEED = 5.0;
+   double MAX_LANDING_SPEED = 4.0;
    int safe_landing = 0;
 
 public:
@@ -76,14 +75,6 @@ public:
        thrusters = t;
     }
 
-    double getDX() {
-       return dx;
-    }
-
-    double getDY() {
-       return dy;
-    }
-
     double getX() {
        return x;
     }
@@ -97,10 +88,6 @@ public:
        y = _y;
        point.setX(_x);
        point.setY(_y);
-    }
-
-    Physics getLMPhysics() {
-       return physics;
     }
 
 };

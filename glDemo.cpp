@@ -22,16 +22,14 @@ public:
     Demo(const Point& ptUpperRight) :
         angle(0.0),
         ptStar(ptUpperRight.getX() - 20.0, ptUpperRight.getY() - 20.0),
-        //LM(ptUpperRight.getX() / 2.0, ptUpperRight.getY() / 2.0),
         ground(ptUpperRight)
    { 
-      //phase = random(0, 255);
       for (int i = 0; i < 50; i++)
           starsList.push_back(Point(random(0, 400), random(0, 400)));
 
       do 
       {
-         LM.setPoint(random(0, 400), random(0, 400));
+         LM.setPoint(random(0, 400), random(200, 400));
       } while (LM.groundCollision(ground));
    }
 
@@ -63,56 +61,83 @@ void callBack(const Interface *pUI, void * p)
    int onTheGround = pDemo->LM.groundCollision(pDemo->ground);
    if (onTheGround != 0)
    {
-      if(onTheGround == 2)
-         cout << "Yay!" << endl;
+      string msg = "";
+      if (onTheGround == 2)
+         msg = "Safe Landing!";
       else
-         cout << "Why?" << endl;
-   }
-   pDemo->LM.updatePhysics();
+         msg = "You Crashed!";
 
-   // move the ship around
-   if (pUI->isRight())
+      for (Point star : pDemo->starsList) {
+         gout.drawStar(star, random(0, 255));
+      }
+
+      // draw the ground
+      pDemo->ground.draw(gout);
+
+      // draw the lander and its flames
+      gout.drawLander(pDemo->LM.getPoint() /*position*/, 
+         pDemo->LM.getAngle() /*angle*/);
+      gout.drawLanderFlames(pDemo->LM.getPoint(), 
+         pDemo->LM.getAngle(), /*angle*/
+         pUI->isDown(), pUI->isLeft(), pUI->isRight());
+
+      // put some text on the screen
+      gout.setPosition(Point(160, 200));
+      gout << msg << endl;
+
+      gout.setPosition(Point(10.0, 380.0));
+      gout << "Fuel:\t\t" << pDemo->LM.getFuel() << "\n";
+      gout << "Altitude:\t\t" << pDemo->LM.getY() << "\n";
+      gout << "Speed:\t\t" << pDemo->LM.getTotalVelocity() 
+         << " m/s" << "\n";
+   }
+   else
    {
-      pDemo->LM.updateAngle(pDemo->LM.getAngle() - 0.1);
-      pDemo->LM.updateDegrees(pDemo->LM.getDegrees() - 10);
-      pDemo->LM.updateFuel(true, false);
+      pDemo->LM.updatePhysics();
+
+      // move the ship around
+      if (pUI->isRight())
+      {
+         pDemo->LM.updateAngle(pDemo->LM.getAngle() - 0.1);
+         pDemo->LM.updateDegrees(pDemo->LM.getDegrees() - 10);
+         pDemo->LM.updateFuel(true, false);
+      }
+
+      if (pUI->isLeft())
+      {
+         pDemo->LM.updateAngle(pDemo->LM.getAngle() + 0.1);
+         pDemo->LM.updateDegrees(pDemo->LM.getDegrees() + 10);
+         pDemo->LM.updateFuel(true, false);
+      }
+
+      if (pUI->isDown())
+      {
+         pDemo->LM.updateFuel(false, true);
+         pDemo->LM.setThrusters(true);
+      }
+      else
+      {
+         pDemo->LM.setThrusters(false);
+      }
+
+      for (Point star : pDemo->starsList) {
+         gout.drawStar(star, random(0, 255));
+      }
+      
+      // draw the ground
+      pDemo->ground.draw(gout);
+      
+      // draw the lander and its flames
+      gout.drawLander(pDemo->LM.getPoint() /*position*/, pDemo->LM.getAngle() /*angle*/);
+      gout.drawLanderFlames(pDemo->LM.getPoint(), pDemo->LM.getAngle(), /*angle*/
+         pUI->isDown(), pUI->isLeft(), pUI->isRight());
+      
+      // put some text on the screen
+      gout.setPosition(Point(10.0, 380.0));
+      gout << "Fuel:\t\t" << pDemo->LM.getFuel() << "\n";
+      gout << "Altitude:\t\t" << pDemo->LM.getY() << "\n";
+      gout << "Speed:\t\t" << pDemo->LM.getTotalVelocity() << " m/s" << "\n";
    }
-       
-   if (pUI->isLeft())
-   {
-      pDemo->LM.updateAngle(pDemo->LM.getAngle() + 0.1);
-      pDemo->LM.updateDegrees(pDemo->LM.getDegrees() + 10);
-      pDemo->LM.updateFuel(true, false);
-   }
-
-   if (pUI->isDown())
-   {
-      pDemo->LM.updateFuel(false, true);
-      pDemo->LM.setThrusters(true);
-   }
-   else 
-   {
-      pDemo->LM.setThrusters(false);
-   }
-
-   for (Point star : pDemo->starsList) {
-       gout.drawStar(star, random(0, 255));
-   }
-
-   // draw the ground
-   pDemo->ground.draw(gout);
-
-   // draw the lander and its flames
-   gout.drawLander(pDemo->LM.getPoint() /*position*/, pDemo->LM.getAngle() /*angle*/);
-   gout.drawLanderFlames(pDemo->LM.getPoint(), pDemo->LM.getAngle(), /*angle*/
-                    pUI->isDown(), pUI->isLeft(), pUI->isRight());
-
-   // put some text on the screen
-   gout.setPosition(Point(10.0, 380.0));
-   gout << "Fuel:\t\t" << pDemo->LM.getFuel() << "\n";
-   gout << "Altitude:\t\t" << pDemo->LM.getY() << "\n";
-   gout << "Speed:\t\t" << pDemo->LM.getTotalVelocity() << " m/s" << "\n";
-
 }
 
 /*********************************

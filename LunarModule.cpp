@@ -2,17 +2,14 @@
 
 int LunarModule::groundCollision(Ground ground) 
 {
-   //bool isCollide = false;
    if (ground.onPlatform(point, width))
    {
       if (totalVelocity >= MAX_LANDING_SPEED)
       {
-         //isCollide = true;
          safe_landing = 1;
       }
       else
       {
-         //isCollide = false;
          safe_landing = 2;
       }
    }
@@ -20,14 +17,12 @@ int LunarModule::groundCollision(Ground ground)
    {   
       if (ground.hitGround(point, width))
       {
-         //isCollide = true;
          safe_landing = 1;
       }
       else
          safe_landing = 0;
    }
 
-   //return isCollide;
    return safe_landing;
 }
 
