@@ -28,14 +28,19 @@ int LunarModule::groundCollision(Ground ground)
 
 void LunarModule::updatePhysics() 
 {
-
-   aRadians = physics.radians(aDegrees);
+   double aRadians = physics.radians(aDegrees);
+   double ddxThrust;
+   double ddyThrust;
+   double ddx;
+   double ddy;
 
    if (thrusters && fuel > 0)
    {
-      accelerationThrust = physics.computeAcceleration(THRUST, WEIGHT);
-      ddxThrust = physics.computeHoriztalComponent(aRadians, accelerationThrust);
-      ddyThrust = physics.computeVerticalComponent(aRadians, accelerationThrust);
+      double accelerationThrust = physics.computeAcceleration(THRUST, WEIGHT);
+      ddxThrust = physics.computeHoriztalComponent(aRadians, 
+         accelerationThrust);
+      ddyThrust = physics.computeVerticalComponent(aRadians, 
+         accelerationThrust);
    }
    else
    {
@@ -46,10 +51,10 @@ void LunarModule::updatePhysics()
    ddx = -ddxThrust;
    ddy = GRAVITY + ddyThrust;
 
-   dx = physics.computeVelocity(dx, ddx, t);
-   dy = physics.computeVelocity(dy, ddy, t);
-   x = physics.computeDistance(x, dx, ddx, t);
-   y = physics.computeDistance(y, dy, ddy, t);
+   dx = physics.computeVelocity(dx, ddx, time);
+   dy = physics.computeVelocity(dy, ddy, time);
+   x = physics.computeDistance(x, dx, ddx, time);
+   y = physics.computeDistance(y, dy, ddy, time);
 
    totalVelocity = physics.computeTotalComponent(dx, dy);
 

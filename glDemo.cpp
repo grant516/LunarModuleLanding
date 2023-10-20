@@ -82,7 +82,7 @@ void callBack(const Interface *pUI, void * p)
          pUI->isDown(), pUI->isLeft(), pUI->isRight());
 
       // put some text on the screen
-      gout.setPosition(Point(160, 200));
+      gout.setPosition(Point(160, 170));
       gout << msg << endl;
 
       gout.setPosition(Point(10.0, 380.0));

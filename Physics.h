@@ -6,9 +6,7 @@ using namespace std;
 class Physics
 {
 private:
-#define WEIGHT   15103.000   // Weight in KG
 #define GRAVITY     -1.625   // Vertical acceleration due to gravity, in m/s^2
-#define THRUST   45000.000   // Thrust of main engine, in Newtons (kg m/s^2)
 
 public:
     /***************************************************
@@ -24,11 +22,7 @@ public:
      * OUTPUT
      *     s : new position, in meters
      **************************************************/
-    double computeDistance(double s, double v, double a, double t) {
-        double distance;
-        distance = s + v * t + .5 * a * pow(t, 2);
-        return (distance);
-    }
+   double computeDistance(double s, double v, double a, double t);
 
     /**************************************************
      * COMPUTE ACCELERATION
@@ -41,10 +35,7 @@ public:
      * OUTPUT
      *     a : acceleration, in meters/second^2
      ***************************************************/
-    double computeAcceleration(double f, double m) {
-        double acceleration = f / m;
-        return acceleration;
-    }
+    double computeAcceleration(double f, double m);
 
     /***********************************************
      * COMPUTE VELOCITY
@@ -60,10 +51,7 @@ public:
      * OUTPUT
      *     v : new velocity, in meters/second
      ***********************************************/
-    double computeVelocity(double v, double a, double t) {
-        double velocity = v + a * t;
-        return velocity;
-    }
+    double computeVelocity(double v, double a, double t);
 
 
     /***********************************************
@@ -84,11 +72,7 @@ public:
      * OUTPUT
      *     y : the vertical component of the total
      ***********************************************/
-    double computeVerticalComponent(double a, double total) {
-        double y;
-        y = cos(a) * total;
-        return y;
-    }
+    double computeVerticalComponent(double a, double total);
 
     /***********************************************
      * COMPUTE HORIZONTAL COMPONENT
@@ -108,11 +92,7 @@ public:
      * OUTPUT
      *     x : the vertical component of the total
      ***********************************************/
-    double computeHoriztalComponent(double a, double total) {
-        double x;
-        x = sin(a) * total;
-        return x;
-    }
+    double computeHoriztalComponent(double a, double total);
 
     /************************************************
      * COMPUTE TOTAL COMPONENT
@@ -133,11 +113,7 @@ public:
      * OUTPUT
      *    total : total component
      ***********************************************/
-    double computeTotalComponent(double x, double y) {
-        double t;
-        t = sqrt(pow(x, 2) + pow(y, 2));
-        return t;
-    }
+    double computeTotalComponent(double x, double y);
 
 
     /*************************************************
@@ -149,19 +125,10 @@ public:
      * OUTPUT
      *     r : radians from 0 to 2pi
      **************************************************/
-    double radians(double d) {
-        double pi = 2 * acos(0.0);
-        double r;
-        r = (d * pi) / 180.0;
-        return r;
-    }
+    double radians(double d);
 
     double getGravity() {
         return GRAVITY;
-    }
-
-    double setGravity(double g) {
-        // Not setting anything since currently gravity is a global variable.
     }
 
 };
