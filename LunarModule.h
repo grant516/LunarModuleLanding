@@ -30,7 +30,7 @@ private:
    double acceleration;
    int fuel = 5000;
    Point point;
-   double MAX_LANDING_SPEED;
+   double MAX_LANDING_SPEED = 5.0;
    int safe_landing = 0;
 
 public:

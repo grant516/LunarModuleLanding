@@ -3,26 +3,28 @@
 int LunarModule::groundCollision(Ground ground) 
 {
    //bool isCollide = false;
-   if (ground.getElevation(point) <= 0) 
+   if (ground.onPlatform(point, width))
    {
-      if (ground.hitGround(point, width)) 
+      if (totalVelocity >= MAX_LANDING_SPEED)
       {
          //isCollide = true;
          safe_landing = 1;
       }
-   }
-   else if (ground.onPlatform(point, width)) 
-   {
-      if (totalVelocity >= MAX_LANDING_SPEED) 
-      {
-         //isCollide = true;
-         safe_landing = 1;
-      }
-      else 
+      else
       {
          //isCollide = false;
          safe_landing = 2;
       }
+   }
+   else if (ground.getElevation(point) <= 0) 
+   {   
+      if (ground.hitGround(point, width))
+      {
+         //isCollide = true;
+         safe_landing = 1;
+      }
+      else
+         safe_landing = 0;
    }
 
    //return isCollide;
