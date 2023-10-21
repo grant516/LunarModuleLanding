@@ -95,29 +95,33 @@ void callBack(const Interface *pUI, void * p)
    {
       pDemo->LM.updatePhysics();
 
-      // move the ship around
-      if (pUI->isRight())
+      // if LM runs out of fuel, make it unable to move
+      if (pDemo->LM.getFuel() > 0)
       {
-         pDemo->LM.updateAngle(pDemo->LM.getAngle() - 0.1);
-         pDemo->LM.updateDegrees(pDemo->LM.getDegrees() - 10);
-         pDemo->LM.updateFuel(true, false);
-      }
+          // move the ship around
+          if (pUI->isRight())
+          {
+              pDemo->LM.updateAngle(pDemo->LM.getAngle() - 0.1);
+              pDemo->LM.updateDegrees(pDemo->LM.getDegrees() - 10);
+              pDemo->LM.updateFuel(true, false);
+          }
 
-      if (pUI->isLeft())
-      {
-         pDemo->LM.updateAngle(pDemo->LM.getAngle() + 0.1);
-         pDemo->LM.updateDegrees(pDemo->LM.getDegrees() + 10);
-         pDemo->LM.updateFuel(true, false);
-      }
+          if (pUI->isLeft())
+          {
+              pDemo->LM.updateAngle(pDemo->LM.getAngle() + 0.1);
+              pDemo->LM.updateDegrees(pDemo->LM.getDegrees() + 10);
+              pDemo->LM.updateFuel(true, false);
+          }
 
-      if (pUI->isDown())
-      {
-         pDemo->LM.updateFuel(false, true);
-         pDemo->LM.setThrusters(true);
-      }
-      else
-      {
-         pDemo->LM.setThrusters(false);
+          if (pUI->isDown())
+          {
+              pDemo->LM.updateFuel(false, true);
+              pDemo->LM.setThrusters(true);
+          }
+          else
+          {
+              pDemo->LM.setThrusters(false);
+          }
       }
 
       for (Point star : pDemo->starsList) {
